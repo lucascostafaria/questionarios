@@ -161,7 +161,8 @@ public class QuestionnaireBean extends BasicCrud<Questionnaire> implements Seria
 	public void editQuestionnaire(Questionnaire questionnaire) throws PersistenceException, BusinessException {
 		try {
 			setStatusCrud(StatusCrud.EDIT);
-			this.setDomain((Questionnaire) this.service.get(Questionnaire.class, questionnaire.getId(), "questions", "questions.alternatives"));
+			this.setDomain((Questionnaire) this.service.get(Questionnaire.class, questionnaire.getId(), "questions",
+					"questions.alternatives"));
 			this.questions = new ArrayList<>(this.getDomain().getQuestions());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -212,15 +213,14 @@ public class QuestionnaireBean extends BasicCrud<Questionnaire> implements Seria
 	 */
 	public String cancel() {
 		setStatusCrud(StatusCrud.DEFAULT);
-		setDomain(null);
-		return "/admin/questionnaire.xhtml";
+		clean();
+		return "questionnaire";
 	}
 
 	/**
 	 * Método para settar o satus do crud como INSERT
 	 */
 	public void setStatusInsert() {
-		cancel();
 		setStatusCrud(StatusCrud.INSERT);
 	}
 

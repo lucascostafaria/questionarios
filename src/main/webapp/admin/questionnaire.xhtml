@@ -35,12 +35,13 @@
 							<div class="col-md-1">
 								<h:commandButton value="Cadastrar" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.setStatusInsert}"
 									rendered="#{questionnaireBean.statusCrud eq 'DEFAULT'}">
+									<f:param name="VALIDATE_ON" value="true" />
 									<f:ajax execute="pnlFields" render="@form" />
 								</h:commandButton>
 							</div>
 							<div class="col-md-1">
 								<h:commandButton value="Pesquisar" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.setStatusSearch}"
-								rendered="#{questionnaireBean.statusCrud eq 'DEFAULT'}">
+									rendered="#{questionnaireBean.statusCrud eq 'DEFAULT'}">
 									<f:ajax execute="pnlFields" render="@form" />
 								</h:commandButton>
 							</div>
@@ -124,6 +125,7 @@
 						<h:panelGroup id="pnlBtn" layout="block" styleClass="col-md-11">
 							<h:commandButton value="Adicionar questão" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.addQuestion}"
 								rendered="#{questionnaireBean.question.questionType ne null}">
+								<f:param name="VALIDATE_ON" value="true" />
 								<f:ajax execute="pnlQuestions pnlFields" render="pnlQuestions pnlTblQuestions pnlTblAlternatives" />
 							</h:commandButton>
 						</h:panelGroup>
@@ -211,7 +213,7 @@
 					rendered="#{questionnaireBean.statusCrud eq 'EDIT' or questionnaireBean.statusCrud eq 'RESUME'}">
 					<f:ajax execute="@form" render="@form messages" />
 				</h:commandButton>
-				<h:commandButton value="Cancelar" styleClass="btn btn-md btn-info" action="#{questionnaireBean.cancel}"/>
+				<h:commandButton value="Cancelar" styleClass="btn btn-md btn-info" action="#{questionnaireBean.cancel}" />
 				<h:commandButton value="Voltar" styleClass="btn btn-md btn-info"
 					rendered="#{questionnaireBean.statusCrud eq 'RESUME' and questionnaireBean.statusCrud ne 'SEARCH'}"
 					actionListener="#{questionnaireBean.setStatusInsert}" />

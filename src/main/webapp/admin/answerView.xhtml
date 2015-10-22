@@ -14,6 +14,13 @@
 						infoClass="alert-success" fatalClass="alert-danger" />
 				</div>
 			</div>
+			<c:if test="#{empty questionnaireBean.answerGroups}">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Este questionário ainda não foi respondido por ninguém.</h3>
+					</div>
+				</div>
+			</c:if>
 			<c:forEach items="#{questionnaireBean.answerGroups}" var="group">
 				<div class="row">
 					<div class="col-md-5">

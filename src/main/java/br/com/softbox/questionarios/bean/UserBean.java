@@ -69,7 +69,9 @@ public class UserBean extends BasicCrud<User> implements Serializable {
 	public void save() {
 		setStatusCrud(StatusCrud.INSERT);
 		super.save();
-		getList().add(getDomain());
+		if (!this.getList().contains(getDomain())) {
+			getList().add(getDomain());
+		}
 		clean();
 	}
 
@@ -78,6 +80,7 @@ public class UserBean extends BasicCrud<User> implements Serializable {
 	 */
 	public void remove(User user) throws PersistenceException, BusinessException {
 		super.delete(user);
+		getList().remove(user);
 	}
 
 	/**
@@ -85,9 +88,7 @@ public class UserBean extends BasicCrud<User> implements Serializable {
 	 */
 	public void edit(User user) throws PersistenceException, BusinessException {
 		setStatusCrud(StatusCrud.EDIT);
-		getDomain().setId(user.getId());
-		getDomain().setEmail(user.getEmail());
-		getDomain().setPassword(user.getPassword());
+		setDomain(user);
 	}
 
 	/**
