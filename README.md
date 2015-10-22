@@ -24,10 +24,10 @@ Será exibida uma tela com o questionário escolhido.
 - Cadastro de questionário – Para cadastrar um questionário é necessário estar cadastrado como usuário do sistema. Clique na aba “Área restrita”.
 - A aplicação possui um usuário Administrador com email: admin@admin.com e senha: 1234
 - Ao tentar cadastrar um questionário, será necessário fazer login no sistema. Após efetuar o login, basta clicar na aba Cadastro de questionário, digitar um nome para o questionário e clicar em “Cadastrar”. Em seguida, preencha as questões e alternativas (caso seja uma questão fechada) e clique em “Visualizar antes de salvar”. Confira o questionário e caso esteja tudo correto, clique em “Salvar”, caso contrário clique em “Voltar”.
-- Caso queira pesquisar um questionário, informe o nome e clique em “Pesquisar”. Após realizar a pesquisa também é oferecida a opção “Editar” o questionário. 
+- Caso queira pesquisar um questionário, informe o nome e clique em “Pesquisar”. Após realizar a pesquisa também são oferecidas as opções “Editar” e "Respostas" para visualizar as respostas desse questionário. 
 - Cadastro de Usuário – Para cadastrar um usuário, clique na aba Cadastro de Usuário. Preencha os campos email e senha e clique em “Cadastrar”.
 - Caso queira pesquisar um usuário, utilize o mesmo campo email como filtro e clique em “Pesquisar”.
-- Relatório de respostas – Para visualizar as respostas de um questionário clique na aba “Respostas de questionário”, digite o email do usuário que respondeu esse questionário e clique em “Ok”.
+
 
 # Ferramentas necessárias
 - Maven Version – 3.0.5

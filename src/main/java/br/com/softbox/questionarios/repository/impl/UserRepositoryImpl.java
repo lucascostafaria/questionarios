@@ -23,7 +23,4 @@ public class UserRepositoryImpl extends BasicRepositoryImpl<User, Long> implemen
 		}
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(DigestUtils.md5Hex("admin@admin.com1234"));
-	}
 }
