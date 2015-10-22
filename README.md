@@ -10,8 +10,10 @@ Se refere a um sistema que possibilita ao usuário cadastrar e responder questio
  - Um questionário pode ser respondido uma única vez para cada email.
 
 # Como executar a aplicação
+- Digite os comandos a seguir no prompt de comando.
 - mvn clean install
 - mvn jetty:run
+- Digite o seguinte endereço no navegador: http://localhost:8080
 
 # Como usar a aplicação
 - O sistema tem como pagina inicial uma tela que da boas vindas ao usuário e solicita que o mesmo digite seu email. 
