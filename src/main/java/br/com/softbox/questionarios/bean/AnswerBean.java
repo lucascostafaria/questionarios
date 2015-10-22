@@ -42,7 +42,7 @@ public class AnswerBean implements Serializable {
 	@PostConstruct
 	protected void init() throws BusinessException {
 		answerGroup = (AnswerGroup) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(ANSWER_GROUP);
-		// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(ANSWER_GROUP);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(ANSWER_GROUP);
 	}
 
 	public AnswerGroup getAnswerGroup() {
