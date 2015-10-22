@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="header">
+		<ui:include src="header.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<h:form id="#{formId}" styleClass="form-horizontal">
+
+				<ui:insert name="contentForm">
+					Bem vindo ao sistema de questionários
+				</ui:insert>
+				<div style="border: 1p solid;"></div>
+				<h:messages id="messages"/> 
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

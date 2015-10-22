@@ -1,0 +1,49 @@
+.divider {
+      color: #f00;
+      background-color: #5bc0de;
+      height: 5px;
+    }
+    
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url("#{facesContext.externalContext.request.contextPath}/resources/fonts/glyphicons-halflings-regular.eot");
+  src: url("#{facesContext.externalContext.request.contextPath}/resources/fonts/glyphicons-halflings-regular.eot?#iefix") format('embedded-opentype'), url("#{facesContext.externalContext.request.contextPath}/resources/fonts/glyphicons-halflings-regular.woff") format('woff'), url("#{facesContext.externalContext.request.contextPath}/resources/fonts/fonts/glyphicons-halflings-regular.ttf") format('truetype'), url("#{facesContext.externalContext.request.contextPath}/resources/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular") format('svg');
+}
+
+body {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.titulo {
+	font-size: 1.4em;
+	text-align: center;
+}
+
+.cabecalho{
+	padding:20px;
+	height: 30px;
+	margin-bottom: 50px;
+	background: #CAE1FF;
+	border: 1px solid darkGray;
+}
+
+.barraEsquerda {
+	border: thin solid lightGray;
+	paddinf: 5px;
+	width: 150px;
+	background: #CAE1FF;
+}
+
+.content {
+	padding: 5px;
+	border: thin solid lightGray;
+	background: white;
+	position: absolute;
+	right: 8px;
+	left: 180px;
+	height: 400px;
+	top: 90px;
+	
+	
+}

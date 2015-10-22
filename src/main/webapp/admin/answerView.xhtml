@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	template="/WEB-INF/templates/basic.xhtml">
+
+	<ui:param name="title" value="Respostas do questionário" />
+	<ui:param name="formId" value="frmAnswerView" />
+	<ui:define name="contentForm">
+		<h:form>
+			<div class="row">
+				<div class="col-md-12">
+					<h:messages id="messages" globalOnly="true" styleClass="messages" errorClass="alert-danger" warnClass="alert-warning"
+						infoClass="alert-success" fatalClass="alert-danger" />
+				</div>
+			</div>
+			<c:forEach items="#{questionnaireBean.answerGroups}" var="group">
+				<div class="row">
+					<div class="col-md-5">
+						<H3>
+							<h:outputLabel value="Email: #{group.email}" styleClass="font-weight: bold;" />
+						</H3>
+					</div>
+					<div class="col-md-7">
+						<H3>
+							<h:outputLabel value="Questionário: #{group.questionnaire.name}" styleClass="font-weight: bold;" />
+						</H3>
+					</div>
+				</div>
+				<c:forEach items="#{group.answers}" var="answer">
+					<div class="row">
+						<div class="col-md-offset-1 col-md-11">
+							<h:outputLabel value="#{answer.question.questionDescription}" />
+						</div>
+						<div class="col-md-offset-1 col-md-10">
+							<c:if test="#{answer.question.questionType eq 'OPENING'}">
+								<h:inputTextarea value="#{answer.text}" readonly="true" cols="120" rows="3" />
+								<br />
+								<br />
+							</c:if>
+							<c:if test="#{answer.question.questionType eq 'CLOSED'}">
+								<h:inputTextarea value="#{answer.alternative.alternativeDescription}" readonly="true" cols="120" rows="3" />
+								<br />
+								<br />
+							</c:if>
+						</div>
+					</div>
+				</c:forEach>
+				<hr class="divider" />
+			</c:forEach>
+			<h:commandButton value="Voltar" styleClass="btn btn-md btn-info" action="questionnaire" />
+		</h:form>
+	</ui:define>
+</ui:composition>

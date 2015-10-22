@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="/WEB-INF/templates/basic.xhtml">
+
+
+	<ui:param name="title" value="Cadastro de questionários" />
+	<ui:param name="formId" value="frmQuestionnaire" />
+	<ui:define name="contentForm">
+		<div class="form-group col-md-12">
+			<h2>Cadastro de questionários</h2>
+		</div>
+		<h:form>
+			<div class="row">
+				<div class="col-md-12">
+					<h:messages id="messages" globalOnly="true" styleClass="messages" errorClass="alert-danger" warnClass="alert-warning"
+						infoClass="alert-success" fatalClass="alert-danger" />
+				</div>
+			</div>
+			<h:panelGroup id="pnlQuestionnaire">
+				<div class="form-group col-md-12">
+					<h:panelGroup id="pnlFields">
+						<div class="row">
+							<div class="col-md-1">
+								<h:outputLabel value="Nome: " for="name" />
+							</div>
+							<div class="col-md-3">
+								<h:inputText id="name" value="#{questionnaireBean.domain.name}" maxlength="50" styleClass="form-control input-sm"
+									converter="stringTrimConverter">
+									<f:validateBean disabled="#{param['VALIDATE_ON'] eq null or !param['VALIDATE_ON']}" />
+								</h:inputText>
+								<h:message for="name" />
+							</div>
+
+							<div class="col-md-1">
+								<h:commandButton value="Cadastrar" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.setStatusInsert}"
+									rendered="#{questionnaireBean.statusCrud eq 'DEFAULT'}">
+									<f:ajax execute="pnlFields" render="@form" />
+								</h:commandButton>
+							</div>
+							<div class="col-md-1">
+								<h:commandButton value="Pesquisar" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.setStatusSearch}"
+								rendered="#{questionnaireBean.statusCrud eq 'DEFAULT'}">
+									<f:ajax execute="pnlFields" render="@form" />
+								</h:commandButton>
+							</div>
+						</div>
+					</h:panelGroup>
+					<hr class="divider" />
+
+					<h:panelGroup layout="block" id="pnlQuestions"
+						rendered="#{questionnaireBean.statusCrud eq 'INSERT' or questionnaireBean.statusCrud eq 'EDIT'}">
+						<div class="row">
+							<div class="col-md-2">
+								<h:outputLabel value="Tipo da questão: " for="questionType" />
+							</div>
+							<div class="col-md-3">
+								<h:selectOneMenu id="questionType" value="#{questionnaireBean.question.questionType}"
+									styleClass="form-control input-sm autocomplete">
+									<f:selectItem noSelectionOption="true" itemLabel="Selecione" />
+									<f:selectItems value="#{questionnaireBean.questionTypes}" var="obj" itemLabel="#{obj.description}" />
+									<f:ajax execute="pnlFields pnlQuestions" render="pnlQuestions pnlAlternatives pnlTblAlternatives pnlBtn" />
+									<f:validateBean disabled="#{param['VALIDATE_ON'] eq null or !param['VALIDATE_ON']}" />
+								</h:selectOneMenu>
+								<h:message for="questionType" />
+							</div>
+						</div>
+						<br />
+
+						<div class="row">
+							<div class="col-md-2">
+								<h:outputLabel value="Descrição da questão" for="questionDescription" rendered="#{questionnaireBean.question.questionType ne null}" />
+							</div>
+							<div class="col-md-8">
+								<h:inputText id="questionDescription" value="#{questionnaireBean.question.questionDescription}" maxlength="200"
+									styleClass="form-control input-sm" rendered="#{questionnaireBean.question.questionType ne null}" converter="stringTrimConverter">
+									<f:validateBean disabled="#{param['VALIDATE_ON'] eq null or !param['VALIDATE_ON']}" />
+								</h:inputText>
+								<h:message for="questionDescription" />
+							</div>
+						</div>
+						<br />
+						<h:panelGroup id="pnlAlternatives">
+							<div class="row">
+								<div class="col-md-2">
+									<h:outputLabel value="Descrição da alternativa" for="alternativeDescription"
+										rendered="#{questionnaireBean.question.questionType eq 'CLOSED'}" />
+								</div>
+								<div class="col-md-7">
+									<h:inputText id="alternativeDescription" value="#{questionnaireBean.alternative.alternativeDescription}" maxlength="200"
+										styleClass="form-control input-sm" rendered="#{questionnaireBean.question.questionType eq 'CLOSED'}"
+										converter="stringTrimConverter" />
+									<h:message for="alternativeDescription" />
+								</div>
+								<div class="col-md-2">
+									<h:commandButton value="Ok" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.addAlternatives}"
+										rendered="#{questionnaireBean.question.questionType eq 'CLOSED'}">
+										<f:ajax execute="pnlFields pnlAlternatives pnlQuestions" render="pnlAlternatives pnlTblAlternatives" />
+									</h:commandButton>
+								</div>
+							</div>
+						</h:panelGroup>
+						<br />
+						<h:panelGroup id="pnlTblAlternatives" layout="block" styleClass="col-md-6">
+							<h:dataTable id="tblAlternatives" value="#{questionnaireBean.alternatives}" var="obj"
+								styleClass="table table-striped table-hover table-condensed" rendered="#{questionnaireBean.question.questionType eq 'CLOSED'}">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Alternativa" styleClass="col-md-9" />
+									</f:facet>
+									<h:outputText value="#{obj.alternativeDescription}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Excluir" styleClass="col-md-1" />
+									</f:facet>
+									<h:commandLink title="Excluir registro" value="Excluir" actionListener="#{questionnaireBean.removeAlternative(obj)}">
+										<f:ajax execute="@this" render="@form" />
+									</h:commandLink>
+								</h:column>
+							</h:dataTable>
+						</h:panelGroup>
+						<br />
+						<h:panelGroup id="pnlBtn" layout="block" styleClass="col-md-11">
+							<h:commandButton value="Adicionar questão" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.addQuestion}"
+								rendered="#{questionnaireBean.question.questionType ne null}">
+								<f:ajax execute="pnlQuestions pnlFields" render="pnlQuestions pnlTblQuestions pnlTblAlternatives" />
+							</h:commandButton>
+						</h:panelGroup>
+						<div class="form-group">
+							<h:panelGroup id="pnlTblQuestions" layout="block" styleClass="col-md-11">
+								<h:dataTable id="tblQuestions" value="#{questionnaireBean.questions}" var="obj"
+									styleClass="table table-striped table-hover table-condensed">
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Questão" styleClass="col-md-9" />
+										</f:facet>
+										<h:outputText value="#{obj.questionDescription}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Excluir" styleClass="col-md-1" />
+										</f:facet>
+										<h:commandLink title="Excluir registro" value="Excluir" actionListener="#{questionnaireBean.removeQuestion(obj)}">
+											<f:ajax execute="@this" render="@form" />
+										</h:commandLink>
+									</h:column>
+								</h:dataTable>
+							</h:panelGroup>
+						</div>
+					</h:panelGroup>
+				</div>
+
+				<div class="form-group">
+					<h:panelGroup id="pnlTblQuestionnaires" layout="block" styleClass="col-md-11">
+						<h:dataTable id="tblQuestionnaires" value="#{questionnaireBean.questionnaires}" var="obj"
+							styleClass="table table-striped table-hover table-condensed" rendered="#{questionnaireBean.statusCrud eq 'SEARCH'}">
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Questionário" styleClass="col-md-9" />
+								</f:facet>
+								<h:outputText value="#{obj.name}" />
+							</h:column>
+							<h:column>
+								<h:commandLink title="Editar registro" value="Editar" actionListener="#{questionnaireBean.editQuestionnaire(obj)}">
+									<f:ajax execute="@this" render="@form" />
+								</h:commandLink>
+							</h:column>
+							<h:column>
+								<h:commandLink title="Ver respostas" value="Respostas" action="#{questionnaireBean.listAnswers(obj)}">
+									<f:ajax execute="@this" render="@form" />
+								</h:commandLink>
+							</h:column>
+						</h:dataTable>
+					</h:panelGroup>
+				</div>
+			</h:panelGroup>
+
+			<h:panelGroup id="pnlResume" layout="block" styleClass="col-md-12" rendered="#{questionnaireBean.statusCrud eq 'RESUME'}">
+				<div class="row">
+					<h2>Resumo do questionário</h2>
+				</div>
+				<c:forEach items="#{questionnaireBean.questions}" var="item">
+					<div class="row">
+						<div class="col-md-12">
+							<h:outputLabel value="#{item.questionDescription}" />
+						</div>
+						<div class="col-md-12">
+							<c:if test="#{item.questionType eq 'OPENING'}">
+								<h:inputTextarea cols="120" rows="2" disabled="true" />
+								<br />
+								<br />
+							</c:if>
+							<c:if test="#{item.questionType eq 'CLOSED'}">
+								<h:selectOneRadio layout="pageDirection" disabled="true">
+									<f:selectItems value="#{item.alternatives}" var="alt" itemLabel="#{alt.alternativeDescription}" />
+								</h:selectOneRadio>
+								<br />
+							</c:if>
+						</div>
+					</div>
+				</c:forEach>
+			</h:panelGroup>
+
+			<div class="form-group col-md-12">
+				<h:commandButton value="Visualizar antes de salvar" styleClass="btn btn-md btn-success" actionListener="#{questionnaireBean.resume}"
+					rendered="#{questionnaireBean.statusCrud eq 'INSERT' or questionnaireBean.statusCrud eq 'EDIT'}">
+					<f:ajax execute="@form" render="@form messages" />
+				</h:commandButton>
+				<h:commandButton value="Salvar" styleClass="btn btn-md btn-primary" actionListener="#{questionnaireBean.save}"
+					rendered="#{questionnaireBean.statusCrud eq 'EDIT' or questionnaireBean.statusCrud eq 'RESUME'}">
+					<f:ajax execute="@form" render="@form messages" />
+				</h:commandButton>
+				<h:commandButton value="Cancelar" styleClass="btn btn-md btn-info" action="#{questionnaireBean.cancel}"/>
+				<h:commandButton value="Voltar" styleClass="btn btn-md btn-info"
+					rendered="#{questionnaireBean.statusCrud eq 'RESUME' and questionnaireBean.statusCrud ne 'SEARCH'}"
+					actionListener="#{questionnaireBean.setStatusInsert}" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

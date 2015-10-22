@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/WEB-INF/templates/basic.xhtml">
+	<ui:param name="formId" value="form"></ui:param>
+	<ui:param name="title" value="Home" />
+
+	<ui:define name="contentForm">
+		<div class="form-group col-md-12">
+			<h2>Seja bem vindo ao sistema de questionários</h2>
+		</div>
+		<h:form>
+			<div class="row">
+				<div class="col-md-12">
+					<h:messages id="messages" globalOnly="true" styleClass="messages" errorClass="alert-danger" warnClass="alert-warning"
+						infoClass="alert-success" fatalClass="alert-danger" />
+				</div>
+			</div>
+			<div class="form-group" id="pnlSearch">
+				<div class="row">
+					<div class="col-md-6">
+						<h:outputLabel value="Para responder um questionário digite seu email e clique em ok." />
+					</div>
+				</div>
+				<h:panelGroup id="pnlIdentificate" layout="block" styleClass="row" rendered="#{empty indexBean.email}">
+					<div class="col-md-3">
+						<h:inputText id="email" value="#{indexBean.email}" maxlength="50" styleClass="form-control input-sm" converter="stringTrimConverter"
+							p:placeholder="email@email.com" p:type="email">
+							<f:validateBean disabled="#{param['VALIDATE_ON'] eq null or !param['VALIDATE_ON']}" />
+						</h:inputText>
+						<h:message for="email" />
+					</div>
+					<div class="col-md-3">
+						<h:commandButton value="Ok" styleClass="btn btn-md btn-primary" actionListener="#{indexBean.identificate}">
+							<f:ajax execute="@form" render="@form" />
+							<f:param name="VALIDATE_ON" value="true" />
+						</h:commandButton>
+					</div>
+				</h:panelGroup>
+			</div>
+
+			<div class="form-group">
+				<h:panelGroup id="pnlTblQuestionnaires" layout="block" styleClass="col-md-11">
+					<h:dataTable id="tblQuestionnaires" value="#{indexBean.questionnaires}" var="obj"
+						styleClass="table table-striped table-hover table-condensed"
+						rendered="#{not empty indexBean.questionnaires and not empty indexBean.email}">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Questionário" styleClass="col-md-9" />
+							</f:facet>
+							<h:outputText value="#{obj.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Responder" styleClass="col-md-1" />
+							</f:facet>
+							<h:commandLink title="Responder questionario" value="Responder">
+								<f:ajax listener="#{indexBean.answer(obj)}" />
+							</h:commandLink>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

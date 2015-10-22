@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="/WEB-INF/templates/basic.xhtml">
+
+	<ui:param name="title" value="Responder o questionário" />
+	<ui:param name="formId" value="frmAnswerQuestionnaire" />
+	<ui:define name="contentForm">
+		<h:form>
+			<div class="row">
+				<div class="col-md-12">
+					<h:messages id="messages" globalOnly="true" styleClass="messages" errorClass="alert-danger" warnClass="alert-warning"
+						infoClass="alert-success" fatalClass="alert-danger" />
+				</div>
+			</div>
+			<c:forEach items="#{answerBean.answerGroup.answers}" var="ans">
+				<div class="row">
+					<div class="col-md-12">
+						<h:outputLabel value="#{ans.question.questionDescription}" />
+					</div>
+					<div class="col-md-12">
+						<c:if test="#{ans.question.questionType eq 'OPENING'}">
+							<h:inputTextarea value="#{ans.text}" cols="120" rows="3" />
+							<br />
+							<br />
+						</c:if>
+						<c:if test="#{ans.question.questionType eq 'CLOSED'}">
+							<h:selectOneRadio value="#{ans.alternative}" layout="pageDirection" converter="utilConverter">
+								<f:selectItems value="#{ans.question.alternatives}" var="alt" itemLabel="#{alt.alternativeDescription}" />
+							</h:selectOneRadio>
+							<br />
+						</c:if>
+					</div>
+				</div>
+			</c:forEach>
+
+			<div class="form-group col-md-12">
+				<h:commandButton value="Responder" styleClass="btn btn-md btn-primary" action="#{answerBean.save}">
+					<f:ajax execute="@form" render="@form" />
+					<f:param name="VALIDATE_ON" value="true" />
+				</h:commandButton>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
